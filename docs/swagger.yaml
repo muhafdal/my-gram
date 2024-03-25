@@ -1,0 +1,545 @@
+definitions:
+  dto.GetCommentResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  dto.GetPhotoResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  dto.GetSocialMedia:
+    properties:
+      created_at:
+        example: "2023-10-09T05:14:35.19324086+07:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Monday Weeekly Official
+        type: string
+      social_media_url:
+        example: https://www.instagram.com/_weeekly/
+        type: string
+      updated_at:
+        example: "2023-10-09T05:14:35.19324086+07:00"
+        type: string
+      user:
+        $ref: '#/definitions/dto.SocialMediaUser'
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  dto.GetSocialMediaHttpResponse:
+    properties:
+      message:
+        example: social media successfully fetched
+        type: string
+      social_media:
+        items:
+          $ref: '#/definitions/dto.GetSocialMedia'
+        type: array
+      status_code:
+        example: 200
+        type: integer
+    type: object
+  dto.GetSocialMediaResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  dto.GetUserResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  dto.NewCommentRequest:
+    properties:
+      message:
+        example: so beautiful
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+    type: object
+  dto.NewPhotoRequest:
+    properties:
+      caption:
+        example: Hello I'm Monday from Weeekly, hopefully You can do this!
+        type: string
+      photo_url:
+        example: https://www.pinterest.com/pin/807973989398829161/
+        type: string
+      title:
+        example: monday awesome
+        type: string
+    type: object
+  dto.NewSocialMediaRequest:
+    properties:
+      name:
+        example: Monday Weeekly Official
+        type: string
+      social_media_url:
+        example: https://www.instagram.com/_weeekly/
+        type: string
+    type: object
+  dto.NewUserRequest:
+    properties:
+      age:
+        example: 21
+        type: integer
+      email:
+        example: monday.day@email.com
+        type: string
+      password:
+        example: secret
+        type: string
+      username:
+        example: monday
+        type: string
+    type: object
+  dto.PhotoUpdateRequest:
+    properties:
+      caption:
+        example: Hello I'm Monday from Weeekly, stay strong!
+        type: string
+      photo_url:
+        example: https://www.pinterest.com/pin/807973989398829161/
+        type: string
+      title:
+        example: monday awesome
+        type: string
+    type: object
+  dto.SocialMediaUser:
+    properties:
+      id:
+        example: 1
+        type: integer
+      profile_image_url:
+        example: https://www.pinterest.com/pin/807973989398829161/
+        type: string
+      username:
+        example: monday
+        type: string
+    type: object
+  dto.UpdateCommentRequest:
+    properties:
+      message:
+        example: omg so beautiful
+        type: string
+    type: object
+  dto.UpdateSocialMediaRequest:
+    properties:
+      name:
+        example: Weeekly Monday Official
+        type: string
+      social_media_url:
+        example: https://www.instagram.com/_weeekly/
+        type: string
+    type: object
+  dto.UserLoginRequest:
+    properties:
+      email:
+        example: monday.day@email.com
+        type: string
+      password:
+        example: secret
+        type: string
+    type: object
+  dto.UserUpdateRequest:
+    properties:
+      email:
+        example: monday.day@weeekly.com
+        type: string
+      username:
+        example: monday
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /comments:
+    get:
+      consumes:
+      - application/json
+      description: Get comments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetCommentResponse'
+      security:
+      - BearerAuth: []
+      summary: Get comments
+      tags:
+      - Comments
+    post:
+      consumes:
+      - application/json
+      description: Add new comment
+      parameters:
+      - description: body request for add new comment
+        in: body
+        name: dto.NewCommentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.GetCommentResponse'
+      security:
+      - BearerAuth: []
+      summary: Add new comment
+      tags:
+      - Comments
+  /comments/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete comment
+      parameters:
+      - description: commentId
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetCommentResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete comment
+      tags:
+      - Comments
+    put:
+      consumes:
+      - application/json
+      description: Update comment
+      parameters:
+      - description: commentId
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      - description: body request for update comment
+        in: body
+        name: dto.UpdateCommentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetCommentResponse'
+      security:
+      - BearerAuth: []
+      summary: Update comment
+      tags:
+      - Comments
+  /photos:
+    get:
+      consumes:
+      - application/json
+      description: Get photos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetPhotoResponse'
+      security:
+      - BearerAuth: []
+      summary: Get photos
+      tags:
+      - Photos
+    post:
+      consumes:
+      - application/json
+      description: Add new photo
+      parameters:
+      - description: body request for add new photo
+        in: body
+        name: dto.NewPhotoRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewPhotoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.GetPhotoResponse'
+      security:
+      - BearerAuth: []
+      summary: Add new photo
+      tags:
+      - Photos
+  /photos/{photoId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete photo
+      parameters:
+      - description: photoId
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetPhotoResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete photo
+      tags:
+      - Photos
+    put:
+      consumes:
+      - application/json
+      description: Update photo
+      parameters:
+      - description: photoId
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      - description: body request for update photo
+        in: body
+        name: dto.PhotoUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PhotoUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetPhotoResponse'
+      security:
+      - BearerAuth: []
+      summary: Update photo
+      tags:
+      - Photos
+  /socialmedias:
+    get:
+      consumes:
+      - application/json
+      description: Get social medias
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetSocialMediaHttpResponse'
+      security:
+      - BearerAuth: []
+      summary: Get social medias
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      description: Add new social media
+      parameters:
+      - description: body request for add new social media
+        in: body
+        name: dto.NewSocialMediaRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewSocialMediaRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.GetSocialMediaResponse'
+      security:
+      - BearerAuth: []
+      summary: Add new social media
+      tags:
+      - Social Media
+  /socialmedias/{socialMediaId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete social media
+      parameters:
+      - description: socialMediaId
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetSocialMediaResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete social media
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - application/json
+      description: Update social media
+      parameters:
+      - description: socialMediaId
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      - description: body request for update social media
+        in: body
+        name: dto.UpdateSocialMediaRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateSocialMediaRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetSocialMediaResponse'
+      security:
+      - BearerAuth: []
+      summary: Update social media
+      tags:
+      - Social Media
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Create new Users
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetUserResponse'
+      security:
+      - BearerAuth: []
+      summary: Create new User
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: User update
+      parameters:
+      - description: body request for user update
+        in: body
+        name: dto.UserUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetUserResponse'
+      security:
+      - BearerAuth: []
+      summary: User update
+      tags:
+      - Users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: User login
+      parameters:
+      - description: body request for user login
+        in: body
+        name: dto.UserLoginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetUserResponse'
+      summary: User login
+      tags:
+      - Users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: User register
+      parameters:
+      - description: body request for user register
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.GetUserResponse'
+      summary: User register
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and token you got from the User
+      Login api.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
